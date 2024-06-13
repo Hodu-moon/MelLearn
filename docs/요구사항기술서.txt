@@ -1,0 +1,74 @@
+서비스
+
+   1. 로그인 회원가입
+
+spotify 소셜 로그인은 필수임.
+생각해봐야 하는건 우리 서버에서도 개인화된 서비스를 제공해야하기 때문에 사용자 인증이 필요함.
+
+Ref: https://developer.spotify.com/documentation/web-api/tutorials/code-flow
+
+스포티파이 OAuth 2.0 방식으로 소셜 연동함.
+flow 그림 1번보면 application에서 client_id를 param으로 spotify에 요청.
+client_id가 있어야함. 이게 application에서 특정할 수 있는 유저 정보 (id).
+
+그러므로 사용자 인증 전체 flow
+1. user -> application 로그인.
+2. application -> spotify 소셜 연동.
+
+문제 1. spotify에서 연동이 완료될 때  Response를 보면 유저를 특정할 수 있는 key는 access_token밖에 없음.
+만약 application단에서 refreshToken이 만료됐을 경우 재로그인을 할텐데 이 때 스포티파이 계정 연동도 다시 연동해야함.
+
+문제해결 : https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile
+userId를 제공한다.
+그렇다면 application의 user와 spotify의 user를 매칭할 수 있다.
+
+문제 2. token의 주기를 맞춰야 한다.
+jwt에서 인증 정보가 들어간 토큰 : accesstoken
+accesstoken을 재발급하기 위해 존재하는 토큰 : refreshToken
+
+지금 application에서 유저를 인증하는 토큰과 spotify에서 유저를 인증하는 토큰이 있다.
+결국 토큰이 2개씩 생기는데 이 토큰들의 만료기간을 일치시켜야 함.
+
+   2. 설정
+
+1. 언어 설정
+사용자의 모국어는 Korean 고정
+언어 학습에 제공되는 언어는 English(Default), Japanese. 프로토타입에서는 두가지 언어만 서비스.
+
+2. 소셜 연동 설정
+만약 스포티파이 계정이 변경됐을 경우 application user와 spotify user를 재 매칭해줘야 함.
+
+3. 레벨 설정
+Level 1. 초급 (Default)
+Level 2. 중급
+Level 3. 상급
+
+각 언어마다 레벨이 나뉘고 그 레벨에 맞는 문제를 제공하기 위함.
+
+4. 기타 사용자 정보 변경
+아이디 비밀번호 등 변경
+
+   3. 음악 스트리밍 제공
+
+   4. Karaoke Mode (Speaking)
+
+1. 노래 전체를 따라부르고 녹음파일과 원본 가사를 비교하여 정확도를 점수로 제공.
+2. 정확도를 기반으로 랭킹을 보여줌. 이를 통해 유저에게 학습동기 제공
+
+   5. word, grammar
+
+가사에 빈칸을 뚫어놓고 word, grammar 문제를 출제
+유저의 레벨에 따라서 문제가 출제됨.
+유저가 문제를 제출하면 채점 결과를 알려주고, 틀린 문제는 learning history에 저장.
+이 방식에서는 음악을 들을 수 없음. 문제를 풀 때 음악을 제공해버리면 리스닝 문제임.
+따라서 문제를 다 풀고난 뒤 채점서비스에서 음악과 가사를 제공.
+
+   6. listening
+
+노래를 들으면서 빈칸을 채워넣는 주관식 문제를 출제
+
+   7. Learning history
+
+각 영역에서 공부한 데이터들을 저장해서 유저에게 리마인드 할 수 있는 데이터를 제공함
+1. Speaking : Speaking에서 틀린 것들을 어떻게 리마인드 시킬 수 있을까? 이건 좀 더 생각해봐야함
+2. Listening, Speaking : 이 영역은 문제 형식이라서 틀린 문제를 저장해놓고 복기할 수 있는 데이터 제공. 단어장 제공

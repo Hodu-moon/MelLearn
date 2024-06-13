@@ -1,0 +1,34 @@
+.scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #888888 #282828; /* Firefox */
+
+  &::-webkit-scrollbar {
+    width: 8px; /* Chrome/Safari/Edge */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #282828; /* Chrome/Safari/Edge */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888888; /* Chrome/Safari/Edge */
+    border-radius: 4px;
+  }
+}
+.scrollbarwhite {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #888888 white; /* Firefox */
+
+  &::-webkit-scrollbarwhite {
+    width: 8px; /* Chrome/Safari/Edge */
+  }
+
+  &::-webkit-scrollbarwhite-track {
+    background-color: white; /* Chrome/Safari/Edge */
+  }
+
+  &::-webkit-scrollbarwhite-thumb {
+    background-color: white; /* Chrome/Safari/Edge */
+    border-radius: 4px;
+  }
+}
